@@ -13,6 +13,36 @@
   <meta property="og:url" content="https://hangga-hub.github.io/color-picker" />
   <meta name="robots" content="index,follow" />
   <link rel="stylesheet" href="https://hangga-hub.github.io/style.css" />
+  <style>
+    .button-row { display: flex; gap: 1rem; margin: 1rem 0; }
+    .swatch-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 0.5rem 0; }
+    .swatch {
+      width: 32px;
+      height: 32px;
+      border-radius: 4px;
+      cursor: pointer;
+      border: 2px solid var(--border);
+      box-shadow: 0 0 6px rgba(255,255,255,0.2);
+    }
+    .preview-box {
+      width: 100%;
+      height: 100px;
+      margin: 1rem 0;
+      border-radius: 6px;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+    .gradient-builder input {
+      width: calc(50% - 8px);
+      margin-right: 4px;
+      padding: 0.5rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+  </style>
 </head>
 <body>
   <div id="navbar"></div>
@@ -21,24 +51,25 @@
     <p>[Ad Spot — Feature affiliate banners or services here]</p>
   </section>
 
+
   <main class="container tool-color">
     <h2>🎨 Color Picker</h2>
 
     <label for="hexInput">HEX</label>
-    <input type="text" id="hexInput" placeholder="#ff00cc" />
+    <input id="hexInput" type="text" placeholder="#ff00cc" />
 
     <label for="rgbInput">RGB</label>
-    <input type="text" id="rgbInput" placeholder="rgb(255, 0, 204)" />
+    <input id="rgbInput" type="text" placeholder="rgb(255, 0, 204)" />
 
     <label for="hslInput">HSL</label>
-    <input type="text" id="hslInput" placeholder="hsl(315, 100%, 50%)" />
+    <input id="hslInput" type="text" placeholder="hsl(315, 100%, 50%)" />
 
     <div class="button-row">
       <button id="randomBtn">🎲 Random Color</button>
       <button id="copyBtn">📋 Copy HEX</button>
     </div>
 
-    <div id="colorPreview">Preview</div>
+    <div id="colorPreview" class="preview-box">#ff00cc</div>
 
     <h3>🔁 Recent Colors</h3>
     <div id="colorHistory" class="swatch-row"></div>
@@ -47,10 +78,12 @@
     <div id="paletteGrid" class="swatch-row"></div>
 
     <h3>🧪 Gradient Builder</h3>
-    <input type="text" id="gradientStart" placeholder="Start HEX e.g. #ff00cc" />
-    <input type="text" id="gradientEnd" placeholder="End HEX e.g. #00fff7" />
-    <button id="previewGradientBtn">🎨 Preview Gradient</button>
-    <div id="gradientPreview">Gradient</div>
+    <div class="gradient-builder">
+      <input id="gradientStart" type="text" placeholder="#ff00cc" />
+      <input id="gradientEnd"   type="text" placeholder="#00fff7" />
+      <button id="previewGradientBtn">🎨 Preview Gradient</button>
+    </div>
+    <div id="gradientPreview" class="preview-box">Gradient</div>
     <pre id="gradientCSS"></pre>
   </main>
 
