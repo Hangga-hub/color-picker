@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Color Picker – Hangga Tools</title>
+  <meta name="description" content="Generate and share colors with Hangga's Color Picker. Supports HEX, RGB, HSL, and converts between them.">
+  <meta name="keywords" content="color picker, color converter, hex to rgb, rgb to hex, hsl to rgb, rgb to hsl, color generator, color converter online, color tools">
+  <meta name="author" content="Hangga" />
+  <meta property="og:title" content="Color Picker – Hangga Tools" />
+  <meta property="og:description" content="Generate and share colors with Hangga's Color Picker. Fast and easy-to-use online color converter and generator." />
+  <meta property="og:image" content="https://hangga-hub.github.io/og-color-picker.png" />
+  <meta property="og:url" content="https://hangga-hub.github.io/color-picker" />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#ff00cc" />
+  <link rel="stylesheet" href="https://hangga-hub.github.io/style.css" />
+  <link rel="icon" href="https://hangga-hub.github.io/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <main class="container tool-color">
+    <h2>🎨 Color Picker</h2>
+
+    <label for="hexInput">HEX</label>
+    <input type="text" id="hexInput" placeholder="#ff00cc" />
+
+    <label for="rgbInput">RGB</label>
+    <input type="text" id="rgbInput" placeholder="rgb(255, 0, 204)" />
+
+    <label for="hslInput">HSL</label>
+    <input type="text" id="hslInput" placeholder="hsl(315, 100%, 50%)" />
+
+    <button onclick="generateRandomColor()">🎲 Random Color</button>
+    <button onclick="copyToClipboard()">📋 Copy HEX</button>
+
+    <div id="colorPreview">Preview</div>
+
+    <div class="share-buttons">
+      <a href="https://x.com/intent/tweet?url=https://hangga-hub.github.io/color-picker" target="_blank">
+        <img src="https://cdn.simpleicons.org/x/white" alt="Share on X" />
+      </a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://hangga-hub.github.io/color-picker" target="_blank">
+        <img src="https://cdn.simpleicons.org/facebook/white" alt="Share on Facebook" />
+      </a>
+      <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hangga-hub.github.io/color-picker" target="_blank">
+        <img src="https://cdn.simpleicons.org/linkedin/white" alt="Share on LinkedIn" />
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <p>Made with ❤️ by Hangga | <a href="https://github.com/hangga-hub/color-picker">GitHub</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
