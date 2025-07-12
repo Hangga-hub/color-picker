@@ -1,4 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
+  loadNavbar();
+  setupListeners();
+  updatePreview("#ff00cc"); // Initial color
+});
+
+function loadNavbar() {
   fetch("https://hangga-hub.github.io/components/navbar.html")
     .then(res => res.text())
     .then(html => {
@@ -12,33 +18,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     });
-
-  setupColorSync();
-});
-
-const history = [];
-
-function setupColorSync() {
-  const hexInput = document.getElementById("hexInput");
-  const rgbInput = document.getElementById("rgbInput");
-  const hslInput = document.getElementById("hslInput");
-
-  hexInput.addEventListener("input", () => updatePreview(hexInput.value.trim()));
-  rgbInput.addEventListener("input", () => {
-    const hex = rgbToHex(rgbInput.value.trim());
-    updatePreview(hex);
-  });
-  hslInput.addEventListener("input", () => {
-    const hex = hslToHex(hslInput.value.trim());
-    updatePreview(hex);
-  });
 }
 
-function generateRandomColor() {
-  const hue = Math.floor(Math.random() * 360);
-  const hex = hslToHex(`hsl(${hue}, 100%, 50%)`);
-  updatePreview(hex);
+function setupListeners() {
+  document.getElementById("hexInput").addEventListener("input", e => updatePreview(e.target.value));
+  document.getElementById("rgbInput").addEventListener("input", e => updatePreview(rgbToHex(e.target.value)));
+  document.getElementById("hslInput").addEventListener("input", e => updatePreview(hslToHex(e.target.value)));
+
+  document.getElementById("randomBtn").addEventListener("click", generateRandomColor);
+  document.getElementById("copyBtn").addEventListener("click", copyToClipboard);
+  document.getElementById("previewGradientBtn").addEventListener("click", previewGradient);
 }
+
+let history = [];
 
 function updatePreview(hex) {
   if (!isValidHex(hex)) return;
@@ -52,12 +44,18 @@ function updatePreview(hex) {
 
   const preview = document.getElementById("colorPreview");
   preview.style.backgroundColor = hex;
-  preview.style.border = "2px solid " + hex;
-  preview.style.boxShadow = `0 0 20px ${hex}`;
   preview.textContent = hex;
+  preview.style.border = `2px solid ${hex}`;
+  preview.style.boxShadow = `0 0 20px ${hex}`;
 
-  storeHistory(hex);
+  updateHistory(hex);
   showPalette(hex);
+}
+
+function generateRandomColor() {
+  const h = Math.floor(Math.random() * 360);
+  const hex = hslToHex(`hsl(${h}, 100%, 50%)`);
+  updatePreview(hex);
 }
 
 function copyToClipboard() {
@@ -65,7 +63,7 @@ function copyToClipboard() {
   navigator.clipboard.writeText(hex).then(() => alert("Copied: " + hex));
 }
 
-function storeHistory(hex) {
+function updateHistory(hex) {
   if (history.includes(hex)) return;
   history.unshift(hex);
   if (history.length > 5) history.pop();
@@ -73,35 +71,35 @@ function storeHistory(hex) {
   const container = document.getElementById("colorHistory");
   container.innerHTML = '';
   history.forEach(c => {
-    const box = document.createElement('div');
-    box.className = 'swatch';
-    box.style.backgroundColor = c;
-    box.title = c;
-    box.onclick = () => updatePreview(c);
-    container.appendChild(box);
+    const swatch = document.createElement("div");
+    swatch.className = "swatch";
+    swatch.style.backgroundColor = c;
+    swatch.title = c;
+    swatch.onclick = () => updatePreview(c);
+    container.appendChild(swatch);
   });
 }
 
 function showPalette(hex) {
   const hsl = rgbToHsl(hexToRgb(hex));
-  const variants = [
-    { label: "Complementary", h: (hsl.h + 180) % 360 },
-    { label: "Analogous +30", h: (hsl.h + 30) % 360 },
-    { label: "Analogous -30", h: (hsl.h + 330) % 360 },
-    { label: "Triadic", h: (hsl.h + 120) % 360 }
+  const paletteGrid = document.getElementById("paletteGrid");
+  paletteGrid.innerHTML = '';
+
+  const harmonies = [
+    { name: "Complementary", h: (hsl.h + 180) % 360 },
+    { name: "Analogous +30", h: (hsl.h + 30) % 360 },
+    { name: "Analogous -30", h: (hsl.h + 330) % 360 },
+    { name: "Triadic", h: (hsl.h + 120) % 360 }
   ];
 
-  const grid = document.getElementById("paletteGrid");
-  grid.innerHTML = '';
-
-  variants.forEach(v => {
-    const variantHex = hslToHex(`hsl(${v.h}, ${Math.round(hsl.s)}%, ${Math.round(hsl.l)}%)`);
-    const box = document.createElement('div');
-    box.className = 'swatch';
-    box.title = `${v.label}: ${variantHex}`;
-    box.style.backgroundColor = variantHex;
-    box.onclick = () => updatePreview(variantHex);
-    grid.appendChild(box);
+  harmonies.forEach(hue => {
+    const color = hslToHex(`hsl(${hue.h}, ${Math.round(hsl.s)}%, ${Math.round(hsl.l)}%)`);
+    const swatch = document.createElement("div");
+    swatch.className = "swatch";
+    swatch.title = `${hue.name}: ${color}`;
+    swatch.style.backgroundColor = color;
+    swatch.onclick = () => updatePreview(color);
+    paletteGrid.appendChild(swatch);
   });
 }
 
@@ -121,28 +119,24 @@ function isValidHex(hex) {
 
 function hexToRgb(hex) {
   hex = hex.replace('#', '');
-  if (hex.length === 3) hex = hex.split('').map(h => h + h).join('');
-  const int = parseInt(hex, 16);
-  return { r: (int >> 16) & 255, g: (int >> 8) & 255, b: int & 255 };
+  if (hex.length === 3) hex = hex.split('').map(x => x + x).join('');
+  const bigint = parseInt(hex, 16);
+  return { r: (bigint >> 16) & 255, g: (bigint >> 8) & 255, b: bigint & 255 };
 }
 
-function rgbToHex(rgb) {
-  const match = rgb.match(/\d+/g);
+function rgbToHex(rgbStr) {
+  const match = rgbStr.match(/\d+/g);
   if (!match || match.length < 3) return '#000000';
   return '#' + match.slice(0, 3).map(n => {
-    const val = parseInt(n).toString(16);
-    return val.length === 1 ? '0' + val : val;
+    const hex = parseInt(n).toString(16);
+    return hex.length === 1 ? '0' + hex : hex;
   }).join('');
 }
 
-function rgbToHsl({ r, g, b }) {
-  r /= 255; g /= 255; b /= 255;
-  const max = Math.max(r,g,b), min = Math.min(r,g,b);
-  let h = 0, s = 0, l = (max + min) / 2;
-  if (max !== min) {
-    const d = max - min;
-    s = l > 0.5 ? d/(2 - max - min) : d/(max + min);
-    switch(max){
-      case r: h = (g - b)/d + (g < b ? 6 : 0); break;
-      case g: h = (b - r)/d + 2; break;
-      case b: h = (r - g)/d
+function hslToHex(hslStr) {
+  const match = hslStr.match(/hsl\((\d+),\s*(\d+)%?,\s*(\d+)%?\)/i);
+  if (!match) return '#000000';
+  let [h, s, l] = match.slice(1).map(Number);
+  s /= 100; l /= 100;
+
+  const c = (1 - Math.abs(2 * l - 1)) * s

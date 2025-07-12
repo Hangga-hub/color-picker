@@ -33,8 +33,10 @@
     <label for="hslInput">HSL</label>
     <input type="text" id="hslInput" placeholder="hsl(315, 100%, 50%)" />
 
-    <button onclick="generateRandomColor()">🎲 Random Color</button>
-    <button onclick="copyToClipboard()">📋 Copy HEX</button>
+    <div class="button-row">
+      <button id="randomBtn">🎲 Random Color</button>
+      <button id="copyBtn">📋 Copy HEX</button>
+    </div>
 
     <div id="colorPreview">Preview</div>
 
@@ -47,8 +49,8 @@
     <h3>🧪 Gradient Builder</h3>
     <input type="text" id="gradientStart" placeholder="Start HEX e.g. #ff00cc" />
     <input type="text" id="gradientEnd" placeholder="End HEX e.g. #00fff7" />
-    <button onclick="previewGradient()">🎨 Preview Gradient</button>
-    <div id="gradientPreview"></div>
+    <button id="previewGradientBtn">🎨 Preview Gradient</button>
+    <div id="gradientPreview">Gradient</div>
     <pre id="gradientCSS"></pre>
   </main>
 
