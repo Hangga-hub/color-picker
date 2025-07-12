@@ -4,25 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Color Picker – Hangga Tools</title>
-  <meta name="description" content="Generate and share colors with Hangga's Color Picker. Supports HEX, RGB, HSL, and converts between them.">
-  <meta name="keywords" content="color picker, color converter, hex to rgb, rgb to hex, hsl to rgb, rgb to hsl, color generator, color converter online, color tools">
+  <meta name="description" content="A fast and easy-to-use color picker tool with HEX, RGB, and HSL support. Random color generator, color harmonies, gradient builder, and a history of recently used colors." />
+  <meta name="keywords" content="color picker, color picker tool, hex to rgb, rgb to hex, hex to hsl, hsl to hex, color harmonies, gradient builder" />
   <meta name="author" content="Hangga" />
-  <meta property="og:title" content="Color Picker – Hangga Tools" />
-  <meta property="og:description" content="Generate and share colors with Hangga's Color Picker. Fast and easy-to-use online color converter and generator." />
+  <meta property="og:title" content="Color Picker" />
+  <meta property="og:description" content="A fast and easy-to-use color picker tool with HEX, RGB, and HSL support. Random color generator, color harmonies, gradient builder, and a history of recently used colors." />
   <meta property="og:image" content="https://hangga-hub.github.io/og-color-picker.png" />
   <meta property="og:url" content="https://hangga-hub.github.io/color-picker" />
   <meta name="robots" content="index,follow" />
-  <meta name="theme-color" content="#ff00cc" />
   <link rel="stylesheet" href="https://hangga-hub.github.io/style.css" />
-  <link rel="icon" href="https://hangga-hub.github.io/favicon.ico" type="image/x-icon" />
 </head>
 <body>
   <div id="navbar"></div>
 
   <section id="ad-space">
-    <p>[Ad – Dev tools, browser extensions, productivity software]</p>
+    <p>[Ad Spot — Feature affiliate banners or services here]</p>
   </section>
-  
+
   <main class="container tool-color">
     <h2>🎨 Color Picker</h2>
 
@@ -40,17 +38,20 @@
 
     <div id="colorPreview">Preview</div>
 
-    <div class="share-buttons">
-      <a href="https://x.com/intent/tweet?url=https://hangga-hub.github.io/color-picker" target="_blank">
-        <img src="https://cdn.simpleicons.org/x/white" alt="Share on X" />
-      </a>
-      <a href="https://www.facebook.com/sharer/sharer.php?u=https://hangga-hub.github.io/color-picker" target="_blank">
-        <img src="https://cdn.simpleicons.org/facebook/white" alt="Share on Facebook" />
-      </a>
-      <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://hangga-hub.github.io/color-picker" target="_blank">
-        <img src="https://cdn.simpleicons.org/linkedin/white" alt="Share on LinkedIn" />
-      </a>
+    <h3>🔁 Recent Colors</h3>
+    <div id="colorHistory" class="swatch-row"></div>
+
+    <h3>🎨 Suggested Harmonies</h3>
+    <div id="paletteGrid" class="swatch-row"></div>
+
+    <h3>🧪 Gradient Builder</h3>
+    <div class="gradient-builder">
+      <input type="text" id="gradientStart" placeholder="Start HEX e.g. #ff00cc" />
+      <input type="text" id="gradientEnd" placeholder="End HEX e.g. #00fff7" />
+      <button onclick="previewGradient()">🎨 Preview Gradient</button>
     </div>
+    <div id="gradientPreview">Gradient</div>
+    <pre id="gradientCSS"></pre>
   </main>
 
   <footer>
